@@ -1,0 +1,72 @@
+.global-uploader {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+  display: block;
+  width: 400px;
+  max-height: 300px;
+  background-color: #fff;
+  border: 1px solid #18304e;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px 0 rgba(30, 31, 31, .5);
+}
+
+.header {
+  width: 100%;
+}
+
+.header__contain {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 8px;
+  width: 100%;
+  height: 40px;
+  background-color: #18304e;
+  border-radius: 2px 2px 0 0;
+}
+
+.header__contain__title {
+  font-size: 16px;
+  line-height: 1.2;
+  text-align: center;
+  color: #fff;
+}
+
+.header__contain__button {
+  flex: 0 0 30%;
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+
+  ::v-deep(.el-button) {
+    min-height: 0;
+  }
+}
+
+.header__button__common {
+  display: flex;
+  margin-left: 16px;
+  padding: 5px 5px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #18304e;
+  border: 0;
+
+  &:hover {
+    background-color: #18304ed1;
+  }
+}
+
+.contain {
+  overflow-y: scroll;
+  width: 100%;
+  // max-height: 240px;
+  height: 240px;
+}
+
+.contain__main {
+  width: 100%;
+  height: 100%;
+}
