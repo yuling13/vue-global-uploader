@@ -1,10 +1,10 @@
 <template lang="pug">
-.uploader
+.global-uploader
 </template>
 
 <script>
 export default {
-  name: 'uploader',
+  name: 'global-uploader',
 
 }
 </script>

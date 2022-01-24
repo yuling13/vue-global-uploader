@@ -1,26 +1,26 @@
 <template lang="pug">
-.layout
-  uploader
+el-container.layout
+  el-main.main
+    upload-page
+  el-footer.footer
+    global-uploader
 </template>
 
 <script>
-import uploader from './components/uploader.vue'
-
+import globalUploader from './components/global-uploader.vue'
+import uploadPage from './page/upload-page.vue'
 export default {
   name: 'App',
+
   components: {
-    uploader,
+    globalUploader,
+    uploadPage,
   },
 }
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss" scoped>
+.main {
+  height: 100vh;
 }
 </style>
