@@ -18,5 +18,4 @@ server.key
 
 # Project
 /worktree-*
-src/configs/index.json
-env.config.json
+node_modules
