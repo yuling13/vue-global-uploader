@@ -62,11 +62,53 @@
 .contain {
   overflow-y: scroll;
   width: 100%;
-  // max-height: 240px;
-  height: 240px;
+  max-height: 240px;
 }
 
 .contain__main {
   width: 100%;
   height: 100%;
+}
+
+.film-item {
+  padding: 8px;
+  width: 100%;
+  min-height: 60px;
+  border-bottom: 1px solid #acacac;
+  color: #606266;
+}
+
+.film-item__title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.film-item__title__text {
+  flex: 0 0 93%;
+  display: flex;
+  align-self: center;
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.film-item__title__button {
+  flex: 0 0 7%;
+  padding: 0;
+  font-size: 18px;
+  height: 20px;
+}
+
+.succeed-button {
+  color: green;
+}
+
+.film-item__status.is-red {
+  color: red;
+}
+
+.film-item__status {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #606266;
 }
