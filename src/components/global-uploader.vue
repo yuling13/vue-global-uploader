@@ -9,6 +9,9 @@
         el-button.header__button__common(@click="closeUploader()" :icon="Close" type="text")
   .contain(v-show="isOpen")
     div.contain__main
+      .fake-network
+        .fake-network__text 模擬網路狀態:
+        el-switch(v-model="fakeNetWorkStatus" active-text="網路連線中" inactive-text="網路中斷")
       template(v-if="originalGlobalUploaderData.length > 0")
         div(v-for="(statusDataList, status) in uploadStatusData" :key="status")
           .film-item(v-for="(item, index) in statusDataList" :key="item.uploadID")
@@ -16,7 +19,7 @@
               .film-item__title__text {{ item.fileName }}
               success-filled.film-item__title__button.succeed-button(v-if="status === 'succeed'")
               el-button.film-item__title__button(:disabled="isUploading" v-else-if="status === 'fail'" @click="refreshFileToWaitingUpload(item, index)" :icon="RefreshRight" type="text")
-            .film-item__status.is-red(v-if="isNetworkConnect === false") {{ $t('網路連線中斷') }}
+            .film-item__status.is-red(v-if="isNetworkConnect === false && status !== 'succeed'") 網路連線中斷
             .film-item__status(v-else :class="{ 'is-red': status === 'fail' }") {{ item.status }}
             el-progress(v-if="status === 'uploading' && isNetworkConnect && !['', null, undefined, 0].includes(uploadActionData.totalChunks)" :percentage="uploadActionData.progress")
 </template>
@@ -39,8 +42,8 @@ export default {
   },
 
   setup () {
-    const { deepCopy, setStatusData, moveWaitingFileToUpload, handlerCheckNetWork, resumeUpload } = useFunction()
-    const { isNetworkConnect, isUploading, uploadActionData, uploadStatusData } = useData()
+    const { deepCopy, setStatusData, moveWaitingFileToUpload, handlerCheckNetWork, resumeUpload, changeFakeNetWorkStatus } = useFunction()
+    const { isNetworkConnect, isUploading, uploadActionData, uploadStatusData, fakeNetWorkStatus } = useData()
     const store = useStore()
     const close = () => {
       store.commit('SET_GLOBAL_UPLOADER_VISIBLE', false)
@@ -102,6 +105,13 @@ export default {
         }
       })
 
+    // 模擬網路狀態
+    watch(
+      () => fakeNetWorkStatus.value,
+      async (newValue, oldValue) => {
+        changeFakeNetWorkStatus(newValue)
+      })
+
     // == event ==
     const isOpen = ref(true)
     const changeContainOpenStatus = () => {
@@ -137,6 +147,7 @@ export default {
       originalGlobalUploaderData,
       uploadStatusData,
       uploadActionData,
+      fakeNetWorkStatus,
 
       // == event ==
       changeContainOpenStatus,

@@ -175,7 +175,6 @@ const refreshVideoCheckUploadInfo = async ({ action, formData, actionData }) => 
       isNetworkConnect.value = false
     } else if (result.isSuccess === true) {
       isNetworkConnect.value = true
-
       // 確認此時偵測的ID與目前真正在上傳的ID相同
       if (submitData.id === actionData.uploadID) {
         actionData.successfulChunkID = result.data?.chunkID ?? []
@@ -213,12 +212,10 @@ const uploadFile = async ({ statusData, actionData, type = '' }) => {
       const result = await api.videoCheckUploadInfo({ body: formData })
       if (result.isSuccess === true) {
         // 檢查是否有分塊已上傳成功
-        chunksDataList = chunksDataList.filter(node => {
-          let chunkID = Object.keys(node)
-          chunkID = chunkID[0].num()
+        chunksDataList = chunksDataList.filter(item => {
+          const chunkID = item.chunkID
           const chunkIDList = result.data?.chunkID ?? []
           const isNotExist = !chunkIDList.includes(chunkID)
-
           return isNotExist
         })
       } else {
@@ -245,17 +242,15 @@ const uploadFile = async ({ statusData, actionData, type = '' }) => {
             const successChunkIDList = getSuccessChunkIDResult.data?.chunkID ?? []
 
             // 進度條
-            const progress = Math.floor((successChunkIDList.length / actionData.totalChunks * 100).num())
+            const progress = Math.floor((successChunkIDList.length / actionData.totalChunks * 100))
             if (actionData.progress < progress) actionData.progress = progress
 
             // 取得失敗分塊數量
             const failChunksNumber = actionData.totalChunks - successChunkIDList.length
             // 取得失敗分塊ID
             const chunksDataList = actionData.chunksDataList.filter(item => {
-              let chunkID = Object.keys(item)
-              chunkID = chunkID[0].num()
+              const chunkID = item.chunkID
               const isNotSuccessChunk = !successChunkIDList.includes(chunkID)
-
               return isNotSuccessChunk
             })
 
@@ -343,6 +338,7 @@ export function useFunction () {
     moveWaitingFileToUpload,
     handlerCheckNetWork,
     resumeUpload,
+    changeFakeNetWorkStatus: api.changeFakeNetWorkStatus,
   }
 }
 
@@ -352,5 +348,6 @@ export function useData () {
     isUploading,
     uploadActionData,
     uploadStatusData,
+    fakeNetWorkStatus: api.fakeNetWorkStatus,
   }
 }
