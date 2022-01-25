@@ -82,6 +82,26 @@ const moveWaitingFileToUpload = async ({ statusData, actionData }) => {
   }
 }
 
+// 斷點續傳方法
+const resumeUpload = async ({ statusData, actionData }) => {
+  let targetData = statusData.uploading[0]
+  targetData = {
+    ...targetData,
+    status: '準備中',
+  }
+
+  // 處理上傳分塊
+  await handleUploadFileChunk({ data: targetData, actionData: actionData })
+  // 開始偵測網路連線和上傳檔案狀態
+  handlerCheckNetWork({ action: 'disable' })
+  const formData = {
+    id: targetData.uploadID,
+  }
+  handlerCheckNetWork({ action: 'enable', formData: formData, actionData: actionData })
+  // 上傳檔案
+  await uploadFile({ statusData: statusData, actionData: actionData, type: 'resumable' })
+}
+
 // 處理上傳檔案分塊
 const handleUploadFileChunk = async ({ data, actionData }) => {
   actionData.isSliceRunning = true
@@ -321,6 +341,8 @@ export function useFunction () {
     deepCopy,
     setStatusData,
     moveWaitingFileToUpload,
+    handlerCheckNetWork,
+    resumeUpload,
   }
 }
 
